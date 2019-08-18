@@ -1,6 +1,6 @@
 module Network.NSQ
     ( Connection
-    , connectNSQ
+    , connectNSQD
     , connectNSQLookupD
     , disconnect
     , ErrorMessage
@@ -11,7 +11,6 @@ module Network.NSQ
     , publish
     , withConnection
     ) where
-
 
 import Control.Concurrent
 import Control.Monad
@@ -54,8 +53,8 @@ data Link = Link
   , lnId :: Maybe ThreadId
   }
 
-connectNSQ :: Text -> Text -> Text -> Text -> IO Connection
-connectNSQ topic channel host port = do
+connectNSQD :: Text -> Text -> Text -> Text -> IO Connection
+connectNSQD topic channel host port = do
   conn <- connect' topic channel host port
   bytes <- newIORef ""
   handlers <- newIORef []
@@ -182,7 +181,7 @@ connect' topic channel host port = do
 
 -- | Add a handler to a connection.
 withConnection :: Connection -> MessageHandler -> IO ()
-withConnection conn@Connection{..} f = do
+withConnection Connection{..} f = do
   handlers <- readIORef cnHandlers
   atomicWriteIORef cnHandlers (f:handlers)
 

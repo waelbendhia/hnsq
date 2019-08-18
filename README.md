@@ -12,9 +12,9 @@ import Control.Concurrent
 
 main :: IO ()
 main = do
-  conn <- connectNSQ "topic" "channel" "127.0.0.1" "4150"
+  conn <- connectNSQD "topic" "channel" "127.0.0.1" "4150"
   -- or
-  conn <- connectNSQLookupD "http://localhost:4161" "topic" "channel"
+  conn <- connectNSQLookupD "topic" "channel" "http://localhost:4161"
 
   -- Add handler
   withConnection conn $ \Message{..} -> do
