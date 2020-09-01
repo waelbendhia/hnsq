@@ -1,5 +1,5 @@
 module Network.NSQ
-    ( Connection
+    ( Connection(..)
     , connectNSQD
     , connectNSQLookupD
     , disconnect
