@@ -192,7 +192,7 @@ disconnect Connection{..} = do
   let lns = fmap snd $ M.toList links
   mapM_ closeLink lns
   return ()
-/
+
 closeLink :: Link -> IO ()
 closeLink Link{..} =
   case lnId of 
