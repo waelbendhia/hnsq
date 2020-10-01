@@ -96,7 +96,7 @@ startLink c@Connection{..} key ln = do
 runLink :: Connection -> Text -> Link -> IO ()
 runLink c@Connection{..} key ln@Link{..} = do
   forever $ do
-    msg <- recv lnSocket 4096
+    msg <- recv lnSocket (1024 * 1024)
     let bytes = lnBytes <> msg
         (packets, bytes') = readPackets bytes
     atomicModifyIORef cnLinks (modifyBytes bytes')
@@ -192,7 +192,7 @@ disconnect Connection{..} = do
   let lns = fmap snd $ M.toList links
   mapM_ closeLink lns
   return ()
-
+/
 closeLink :: Link -> IO ()
 closeLink Link{..} =
   case lnId of 
