@@ -96,7 +96,7 @@ startLink c@Connection{..} key ln = do
 runLink :: Connection -> Text -> Link -> IO ()
 runLink c@Connection{..} key ln@Link{..} = do
   forever $ do
-    msg <- recv lnSocket 128
+    msg <- recv lnSocket 4096
     let bytes = lnBytes <> msg
         (packets, bytes') = readPackets bytes
     atomicModifyIORef cnLinks (modifyBytes bytes')
