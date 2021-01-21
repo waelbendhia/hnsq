@@ -32,7 +32,7 @@ library
                      , utf8-string
                      , wreq
   default-language:    Haskell2010
-  default-extensions: OverloadedStrings RecordWildCards DeriveGeneric TypeApplications
+  default-extensions: OverloadedStrings DeriveGeneric TypeApplications
 source-repository head
   type:     git
   location: https://github.com/lostlevels/hnsq

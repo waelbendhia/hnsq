@@ -44,7 +44,7 @@ instance FromJSON LookupDResponse where
         LookupDResponse <$> o .: "producers"
 
 prAddress :: ProducerResponse -> Text
-prAddress ProducerResponse{..} = address prHostname $ pack (show prTcpPort)
+prAddress resp = address (prHostname resp) $ pack (show (prTcpPort resp))
 
 -- | Address from host + port.
 address :: Text -> Text -> Text
