@@ -1,10 +1,10 @@
-module Network.NSQ.Commands (fin, magic, mpub, nop, rdy, req, sub, pub) where
+module Network.NSQ.Commands ( fin, magic, mpub, nop, rdy, req, sub, pub ) where
 
-import qualified Data.ByteString as B
+import           Data.Binary           ( encode )
+import qualified Data.ByteString       as B
 import qualified Data.ByteString.Char8 as C8
-import qualified Data.ByteString.Lazy as BL
-import           Data.ByteString.UTF8 as BSU
-import           Data.Binary (encode)
+import qualified Data.ByteString.Lazy  as BL
+import           Data.ByteString.UTF8  as BSU
 import           Data.Int
 
 fin :: B.ByteString -> B.ByteString
@@ -14,16 +14,11 @@ magic :: B.ByteString
 magic = "  V2"
 
 mpub :: B.ByteString -> [B.ByteString] -> B.ByteString
-mpub topic payload = "MPUB "
-  <> topic
-  <> "\n"
-  <> toStrict (encode totalSize)
-  <> B.concat (fmap message payload)
+mpub topic payload = "MPUB " <> topic <> "\n" <> toStrict (encode totalSize)
+    <> B.concat (fmap message payload)
   where
     len bytes = (fromIntegral $ B.length bytes) :: Int32
-
     totalSize = sum $ fmap len payload
-
     message bytes = toStrict (encode (len bytes)) <> bytes
 
 nop :: B.ByteString
